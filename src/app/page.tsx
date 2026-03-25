@@ -32,7 +32,7 @@ interface FormErrors {
 }
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",
@@ -42,13 +42,6 @@ export default function App() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
