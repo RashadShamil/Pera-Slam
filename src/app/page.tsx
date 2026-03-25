@@ -114,25 +114,29 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      <AnimatePresence>
-        {isLoading && <Preloader />}
-      </AnimatePresence>
+    <div className="min-h-screen bg-black relative">
+      {/* Global Parallax Background */}
+      <div
+        className="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: 'url(https://images.unsplash.com/photo-1602211844066-d3bb556e983b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZW5uaXMlMjBiYWxsJTIwY2xvc2UlMjB1cHxlbnwxfHx8fDE3NzQ0MTMyODd8MA&ixlib=rb-4.1.0&q=80&w=1080)',
+          backgroundAttachment: 'fixed',
+          filter: 'brightness(0.5) contrast(1.1)',
+          zIndex: 0
+        }}
+      />
+      <div className="fixed inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black/80 pointer-events-none" style={{ zIndex: 1 }} />
+
+      <div className="relative z-10 w-full h-full flex flex-col">
+        <AnimatePresence>
+          {isLoading && <Preloader />}
+        </AnimatePresence>
 
       {/* Floating Navigation */}
       <FloatingNav peraLogo={peraLogo} tennisLogo={tennisLogo} />
 
-      {/* Hero Section with Parallax */}
+      {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-32 pb-16 px-8">
-        {/* Parallax Background - Tennis Court */}
-        <div
-          className="parallax-bg"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1602211844066-d3bb556e983b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZW5uaXMlMjBiYWxsJTIwY2xvc2UlMjB1cHxlbnwxfHx8fDE3NzQ0MTMyODd8MA&ixlib=rb-4.1.0&q=80&w=1080)',
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/40" style={{ zIndex: 1 }} />
-
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center relative" style={{ zIndex: 10 }}>
           {/* Left: Hero Visual */}
           <motion.div
@@ -259,7 +263,7 @@ export default function App() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
-        className="py-24 px-8 bg-gradient-to-br from-gray-50 via-white to-teal-50/30"
+        className="relative py-24 px-8"
       >
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -268,10 +272,10 @@ export default function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary drop-shadow-md">
               Tournament Information
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-white/80 max-w-2xl mx-auto text-lg drop-shadow">
               Everything you need to know about this year's championship
             </p>
           </motion.div>
@@ -283,14 +287,14 @@ export default function App() {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               whileHover={{ y: -8 }}
-              className="bg-white p-5 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border border-primary/10"
+              className="bg-white/10 backdrop-blur-md p-5 sm:p-8 rounded-3xl shadow-2xl hover:bg-white/20 transition-all border border-white/20 text-white"
             >
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary to-accent rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 shadow-lg shadow-primary/20">
                 <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h3 className="text-base sm:text-xl font-bold mb-1 sm:mb-2">Tournament Dates</h3>
-              <p className="text-muted-foreground text-xs sm:text-base mb-1 sm:mb-2">May 1,2,3, 2026</p>
-              <p className="text-[10px] sm:text-sm text-muted-foreground line-clamp-2">3 days of competitive tennis action</p>
+              <h3 className="text-base sm:text-xl font-bold mb-1 sm:mb-2 text-white">Tournament Dates</h3>
+              <p className="text-white/90 text-xs sm:text-base mb-1 sm:mb-2">May 1,2,3, 2026</p>
+              <p className="text-[10px] sm:text-sm text-white/70 line-clamp-2">3 days of competitive tennis action</p>
             </motion.div>
 
             <motion.div
@@ -299,14 +303,14 @@ export default function App() {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
               whileHover={{ y: -8 }}
-              className="bg-white p-5 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border border-secondary/10"
+              className="bg-white/10 backdrop-blur-md p-5 sm:p-8 rounded-3xl shadow-2xl hover:bg-white/20 transition-all border border-white/20 text-white"
             >
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-secondary to-primary rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 shadow-lg shadow-secondary/20">
                 <MapPin className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h3 className="text-base sm:text-xl font-bold mb-1 sm:mb-2">Venue</h3>
-              <p className="text-muted-foreground text-xs sm:text-base mb-1 sm:mb-2">Kandy Gardens Club</p>
-              <p className="text-[10px] sm:text-sm text-muted-foreground">Premium Tennis Courts</p>
+              <h3 className="text-base sm:text-xl font-bold mb-1 sm:mb-2 text-white">Venue</h3>
+              <p className="text-white/90 text-xs sm:text-base mb-1 sm:mb-2">Kandy Gardens Club</p>
+              <p className="text-[10px] sm:text-sm text-white/70">Premium Tennis Courts</p>
             </motion.div>
 
             <motion.div
@@ -315,14 +319,14 @@ export default function App() {
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
               whileHover={{ y: -8 }}
-              className="bg-white p-5 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border border-accent/10"
+              className="bg-white/10 backdrop-blur-md p-5 sm:p-8 rounded-3xl shadow-2xl hover:bg-white/20 transition-all border border-white/20 text-white"
             >
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-accent to-secondary rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 shadow-lg shadow-accent/20">
                 <Users className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h3 className="text-base sm:text-xl font-bold mb-1 sm:mb-2">Categories</h3>
-              <p className="text-muted-foreground text-xs sm:text-base mb-1 sm:mb-2">5 Age Groups</p>
-              <p className="text-[10px] sm:text-sm text-muted-foreground">(U-12, U-14, U-16, U-18, Men's, Women's Singles & Doubles Tournaments</p>
+              <h3 className="text-base sm:text-xl font-bold mb-1 sm:mb-2 text-white">Categories</h3>
+              <p className="text-white/90 text-xs sm:text-base mb-1 sm:mb-2">5 Age Groups</p>
+              <p className="text-[10px] sm:text-sm text-white/70">(U-12, U-14, U-16, U-18, Men's, Women's Singles & Doubles Tournaments</p>
             </motion.div>
 
             {/* Features (Now part of the same grid) */}
@@ -333,7 +337,7 @@ export default function App() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: (index + 3) * 0.1 }}
-                className="bg-white p-5 sm:p-8 rounded-2xl shadow-md hover:shadow-xl transition-all group"
+                className="bg-white/10 backdrop-blur-md p-5 sm:p-8 rounded-3xl shadow-2xl hover:bg-white/20 transition-all border border-white/20 group text-white"
               >
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 360 }}
@@ -342,8 +346,8 @@ export default function App() {
                 >
                   <feature.icon className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
                 </motion.div>
-                <h3 className="text-base sm:text-lg font-bold mb-1 sm:mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground text-xs sm:text-sm">{feature.description}</p>
+                <h3 className="text-base sm:text-lg font-bold mb-1 sm:mb-2 text-white">{feature.title}</h3>
+                <p className="text-white/70 text-xs sm:text-sm">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -357,10 +361,10 @@ export default function App() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
-        className="py-24 px-8 bg-white relative overflow-hidden"
+        className="py-24 px-8 relative overflow-hidden"
       >
         {/* Background decoration */}
-        <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary rounded-full blur-3xl" />
         </div>
@@ -372,10 +376,10 @@ export default function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary drop-shadow-md">
               Match Schedule
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-white/80 max-w-2xl mx-auto text-lg drop-shadow">
               Three days of exciting matches and ceremonies
             </p>
           </motion.div>
@@ -391,7 +395,7 @@ export default function App() {
             <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-secondary rounded-3xl blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700"></div>
 
             {/* Glossy Card */}
-            <div className="relative bg-white/80 backdrop-blur-xl border border-white/60 p-10 md:p-16 text-center rounded-3xl shadow-2xl">
+            <div className="relative bg-white/10 backdrop-blur-md border border-white/20 p-10 md:p-16 text-center rounded-3xl shadow-2xl text-white">
               <motion.div
                 animate={{ rotate: [0, 5, -5, 0], y: [0, -5, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -400,16 +404,16 @@ export default function App() {
                 <Calendar className="w-10 h-10 text-white" />
               </motion.div>
 
-              <h3 className="text-3xl md:text-5xl font-extrabold text-primary mb-2">
+              <h3 className="text-3xl md:text-5xl font-extrabold text-primary mb-2 drop-shadow-md">
                 Schedule & Draws
               </h3>
-              <h4 className="text-2xl md:text-3xl font-bold text-foreground mb-6">Coming Soon</h4>
+              <h4 className="text-2xl md:text-3xl font-bold text-white mb-6 drop-shadow-sm">Coming Soon</h4>
 
-              <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-8 font-medium">
+              <p className="text-lg text-white/80 max-w-xl mx-auto mb-8 font-medium">
                 Get your rackets ready! The official match schedule and the comprehensive tournament draw tree will be revealed right here after player registrations close.
               </p>
 
-              <div className="inline-flex items-center gap-2 px-6 py-3 bg-primary/10 text-primary rounded-full font-bold">
+              <div className="inline-flex items-center gap-2 px-6 py-3 bg-primary/20 border border-primary/30 text-primary rounded-full font-bold">
                 <Clock className="w-5 h-5 animate-pulse" />
                 Stay Tuned
               </div>
@@ -425,57 +429,57 @@ export default function App() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
-        className="py-24 px-8 bg-gradient-to-br from-white to-gray-50 border-t border-gray-100"
+        className="py-24 px-8 relative border-t border-white/10"
       >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary drop-shadow-md">
               Rules & Payment Info
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-white/80 max-w-2xl mx-auto text-lg drop-shadow">
               Please read the tournament guidelines and payment structure before proceeding to register.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {/* Rules Block */}
-            <div className="bg-white p-8 rounded-3xl shadow-lg border border-primary/10 hover:shadow-xl transition-shadow relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -z-0"></div>
+            <div className="bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-white/20 hover:bg-white/15 transition-all relative overflow-hidden text-white">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-bl-full blur-2xl -z-0"></div>
               <div className="relative z-10 flex items-center gap-4 mb-8">
                 <div className="w-14 h-14 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
                   <ScrollText className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold">Tournament Rules</h3>
+                <h3 className="text-2xl font-bold text-white">Tournament Rules</h3>
               </div>
               <div className="space-y-4 relative z-10">
 
-                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 hover:border-primary/30 transition-colors">
-                  <div className="font-semibold text-foreground flex items-center gap-2 mb-1">
+                <div className="bg-white/5 p-4 rounded-xl border border-white/10 hover:border-primary/50 transition-colors">
+                  <div className="font-semibold text-white flex items-center gap-2 mb-1">
                     <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
                     Juniors (U-12 to U-18)
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed ml-6">
-                    <strong>First to reach 7 games.</strong> If the score ties at 6-6, a standard 7-point tiebreaker is played to determine the winner of that 7th game.
-                    <br /><span className="inline-block mt-2 px-2 py-0.5 bg-primary/10 text-primary text-xs font-bold rounded">Finals: First to reach 2 sets</span>
+                  <p className="text-sm text-white/70 leading-relaxed ml-6">
+                    <strong className="text-white">First to reach 7 games.</strong> If the score ties at 6-6, a standard 7-point tiebreaker is played to determine the winner of that 7th game.
+                    <br /><span className="inline-block mt-2 px-2 py-0.5 bg-primary/20 text-primary-50 text-xs font-bold rounded">Finals: First to reach 2 sets</span>
                   </p>
                 </div>
 
-                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 hover:border-primary/30 transition-colors">
-                  <div className="font-semibold text-foreground flex items-center gap-2 mb-1">
+                <div className="bg-white/5 p-4 rounded-xl border border-white/10 hover:border-primary/50 transition-colors">
+                  <div className="font-semibold text-white flex items-center gap-2 mb-1">
                     <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
                     Open Matches & Junior Finals
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed ml-6">
-                    <strong>First to reach 2 sets.</strong> A player must win two full sets (first to 6 games, leading by 2) to claim the match victory.
+                  <p className="text-sm text-white/70 leading-relaxed ml-6">
+                    <strong className="text-white">First to reach 2 sets.</strong> A player must win two full sets (first to 6 games, leading by 2) to claim the match victory.
                   </p>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 hover:border-primary/30 transition-colors">
-                  <div className="font-semibold text-foreground flex items-center gap-2 mb-1">
+                <div className="bg-white/5 p-4 rounded-xl border border-white/10 hover:border-primary/50 transition-colors">
+                  <div className="font-semibold text-white flex items-center gap-2 mb-1">
                     <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
                     No Advantage Scoring
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed ml-6">
-                    Matches use <strong>sudden death at Deuce (40-40)</strong>. Whoever wins the very next point wins the entire game, allowing the tournament to stay perfectly on schedule.
+                  <p className="text-sm text-white/70 leading-relaxed ml-6">
+                    Matches use <strong className="text-white">sudden death at Deuce (40-40)</strong>. Whoever wins the very next point wins the entire game, allowing the tournament to stay perfectly on schedule.
                   </p>
                 </div>
 
@@ -483,35 +487,35 @@ export default function App() {
             </div>
 
             {/* Payment Block */}
-            <div className="bg-white p-8 rounded-3xl shadow-lg border border-accent/10 hover:shadow-xl transition-shadow relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-bl-full -z-0"></div>
+            <div className="bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-white/20 hover:bg-white/15 transition-all relative overflow-hidden text-white">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-accent/20 rounded-bl-full blur-2xl -z-0"></div>
               <div className="relative z-10 flex items-center gap-4 mb-8">
                 <div className="w-14 h-14 bg-gradient-to-br from-accent to-secondary rounded-2xl flex items-center justify-center shadow-lg shadow-accent/20">
                   <CreditCard className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold">Entry Fees & Payment</h3>
+                <h3 className="text-2xl font-bold text-white">Entry Fees & Payment</h3>
               </div>
 
               <div className="grid grid-cols-2 gap-4 mb-8 relative z-10">
-                <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
-                  <div className="text-sm text-muted-foreground mb-1">Singles</div>
-                  <div className="text-xl font-bold text-foreground">Rs. 2000</div>
+                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
+                  <div className="text-sm text-white/70 mb-1">Singles</div>
+                  <div className="text-xl font-bold text-white">Rs. 2000</div>
                 </div>
-                <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
-                  <div className="text-sm text-muted-foreground mb-1">Doubles</div>
-                  <div className="text-xl font-bold text-foreground">Rs. 2000</div>
+                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
+                  <div className="text-sm text-white/70 mb-1">Doubles</div>
+                  <div className="text-xl font-bold text-white">Rs. 2000</div>
                 </div>
-                <div className="p-4 bg-accent/5 rounded-xl border border-accent/10">
-                  <div className="text-sm text-muted-foreground mb-1">Play Both</div>
-                  <div className="text-xl font-bold text-secondary">Rs. 3500</div>
+                <div className="p-4 bg-accent/20 rounded-xl border border-accent/30">
+                  <div className="text-sm text-white/80 mb-1">Play Both</div>
+                  <div className="text-xl font-bold text-accent">Rs. 3500</div>
                 </div>
-                <div className="p-4 bg-primary/5 rounded-xl border border-primary/10">
-                  <div className="text-sm text-muted-foreground mb-1">UoP Students</div>
-                  <div className="text-xl font-bold text-primary">Rs. 1500 <span className="text-xs font-normal">per event</span></div>
+                <div className="p-4 bg-primary/20 rounded-xl border border-primary/30">
+                  <div className="text-sm text-white/80 mb-1">UoP Students</div>
+                  <div className="text-xl font-bold text-primary">Rs. 1500 <span className="text-xs font-normal text-white/60">per event</span></div>
                 </div>
               </div>
 
-              <div className="bg-gray-900 text-white p-6 rounded-2xl relative z-10 shadow-inner">
+              <div className="bg-black/40 backdrop-blur-md text-white p-6 rounded-2xl relative z-10 shadow-inner border border-white/10">
                 <h4 className="font-semibold mb-3 flex items-center gap-2">
                   <ShieldAlert className="w-5 h-5 text-accent" />
                   Transfer Details
@@ -529,17 +533,17 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mt-12 max-w-3xl mx-auto bg-primary/10 border border-primary/20 rounded-2xl p-6 md:p-8 text-center"
+            className="mt-12 max-w-3xl mx-auto bg-primary/20 backdrop-blur-md border border-primary/30 rounded-2xl p-6 md:p-8 text-center text-white"
           >
-            <h3 className="text-xl font-bold text-primary mb-2 flex items-center justify-center gap-2">
+            <h3 className="text-xl font-bold text-primary mb-2 flex items-center justify-center gap-2 drop-shadow-md">
               <CheckCircle2 className="w-6 h-6" />
               Registration Instructions
             </h3>
-            <p className="text-muted-foreground mb-4">
-              You must complete your payment bank transfer <strong>before</strong> filling out the form.
+            <p className="text-white/80 mb-4 text-lg">
+              You must complete your payment bank transfer <strong className="text-white">before</strong> filling out the form.
               Please capture a screenshot of your successful transaction to upload in the payment receipt section below.
             </p>
-            <div className="flex items-center justify-center gap-2 text-foreground font-semibold bg-white inline-flex px-6 py-3 rounded-full shadow-sm">
+            <div className="flex items-center justify-center gap-2 text-white font-semibold bg-white/20 backdrop-blur-lg border border-white/20 inline-flex px-6 py-3 rounded-full shadow-lg">
               <PhoneCall className="w-5 h-5 text-accent" />
               Facing difficulties? Call 077 007 1566
             </div>
@@ -547,17 +551,8 @@ export default function App() {
         </div>
       </motion.section>
 
-      {/* Registration Form Section with Parallax */}
-      <section id="registration-form" className="relative py-24 px-8">
-        {/* Parallax Background - Tennis Ball */}
-        <div
-          className="parallax-bg"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1602211844066-d3bb556e983b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZW5uaXMlMjBiYWxsJTIwY2xvc2UlMjB1cHxlbnwxfHx8fDE3NzQ0MTMyODd8MA&ixlib=rb-4.1.0&q=80&w=1080)',
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/40" style={{ zIndex: 1 }} />
-
+      {/* Registration Form Section */}
+      <section id="registration-form" className="relative pt-12 pb-24 px-8 border-t border-white/10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -570,12 +565,12 @@ export default function App() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl p-8 md:p-12 border-2 border-white/30"
+            className="bg-white/25 backdrop-blur-2xl rounded-3xl shadow-2xl p-8 md:p-12 border border-white/40 text-white"
           >
-            <h2 className="text-4xl font-bold mb-2 text-primary">
+            <h2 className="text-4xl font-bold mb-2 text-primary drop-shadow-md">
               Player Registration
             </h2>
-            <p className="text-muted-foreground mb-8">Fill in your details to secure your spot in the tournament</p>
+            <p className="text-white/90 mb-8 text-lg drop-shadow-sm">Fill in your details to secure your spot in the tournament</p>
 
             {isSubmitted ? (
               <motion.div
@@ -591,15 +586,17 @@ export default function App() {
                 >
                   <CheckCircle2 className="w-12 h-12 text-white" />
                 </motion.div>
-                <h3 className="text-3xl font-bold mb-3 text-primary">
+                <h3 className="text-3xl font-bold mb-3 text-primary drop-shadow-md">
                   Registration Successful!
                 </h3>
-                <p className="text-muted-foreground mb-6">
+                <p className="text-white/80 mb-6 text-lg">
                   Thank you for registering for Pera Slam 2026. Check your email for confirmation details and next steps.
                 </p>
-                <Button onClick={() => setIsSubmitted(false)} variant="outline">
-                  Register Another Player
-                </Button>
+                <div className="flex justify-center">
+                  <Button onClick={() => setIsSubmitted(false)} variant="outline" className="border-white/30 text-white hover:bg-white/20">
+                    Register Another Player
+                  </Button>
+                </div>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -655,6 +652,7 @@ export default function App() {
 
       {/* Wow Footer */}
       <WowFooter />
+      </div>
     </div>
   );
 }
