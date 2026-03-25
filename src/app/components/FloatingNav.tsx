@@ -29,7 +29,7 @@ export function FloatingNav({ peraLogo, tennisLogo }: FloatingNavProps) {
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 2.2, duration: 0.6 }}
+      transition={{ delay: 0.2, duration: 0.6 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "py-3" : "py-6"
         }`}
     >
@@ -72,6 +72,9 @@ export function FloatingNav({ peraLogo, tennisLogo }: FloatingNavProps) {
 
             {/* Navigation Links */}
             <div className="hidden md:flex items-center gap-2">
+              <NavLink href="#rules" onClick={() => scrollToSection("rules")}>
+                Rules & Payment
+              </NavLink>
               <NavLink href="#registration-form" onClick={() => scrollToSection("registration-form")}>
                 Register
               </NavLink>
@@ -112,6 +115,7 @@ export function FloatingNav({ peraLogo, tennisLogo }: FloatingNavProps) {
                 exit={{ height: 0, opacity: 0 }}
                 className="md:hidden overflow-hidden flex flex-col gap-2 pt-4 mt-4 border-t border-border/50"
               >
+                <NavLink href="#rules" onClick={() => scrollToSection("rules")}>Rules</NavLink>
                 <NavLink href="#registration-form" onClick={() => scrollToSection("registration-form")}>Register</NavLink>
                 <NavLink href="#schedule" onClick={() => scrollToSection("schedule")}>Schedule</NavLink>
                 <NavLink href="#contact" onClick={() => scrollToSection("contact")}>Contact</NavLink>
