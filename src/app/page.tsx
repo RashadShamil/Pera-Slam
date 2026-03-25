@@ -96,7 +96,7 @@ export default function App() {
     {
       icon: Trophy,
       title: "Championship Trophy",
-      description: "Compete for the prestigious Pera Slam Championship trophy and eternal glory",
+      description: "Compete for the prestigious Pera Slam Championship trophy.",
       gradient: "from-primary to-accent",
     },
     {
@@ -138,7 +138,7 @@ export default function App() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 2.4, duration: 0.8 }}
+            transition={{ duration: 0.8 }}
             className="relative"
           >
             <div className="relative w-64 md:w-full aspect-square max-w-sm md:max-w-lg mx-auto">
@@ -148,7 +148,7 @@ export default function App() {
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.6 }}
+                transition={{ duration: 0.6 }}
                 className="relative z-10"
               >
                 <img
@@ -183,7 +183,7 @@ export default function App() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
+              transition={{ duration: 0.6 }}
             >
               <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-4">
                 <span className="text-primary">
@@ -198,7 +198,7 @@ export default function App() {
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
+              transition={{ duration: 0.6 }}
               className="text-2xl md:text-3xl text-white/90"
             >
               Kandy's Largest Tennis Tournament
@@ -207,17 +207,17 @@ export default function App() {
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
+              transition={{ duration: 0.6 }}
               className="text-lg text-white/70 max-w-md mx-auto md:mx-0"
             >
               Join us for the most prestigious tennis championship in Kandy.
-              Three days of intense competition, excellent facilities, and unforgettable moments.
+              Three days of intense competition and unforgettable moments.
             </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
+              transition={{ duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
             >
               <Button
@@ -243,7 +243,7 @@ export default function App() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, y: [0, 10, 0] }}
-          transition={{ delay: 1.0, duration: 2, repeat: Infinity }}
+          transition={{ delay: 0.5, duration: 2, repeat: Infinity }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
           <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
@@ -268,7 +268,7 @@ export default function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
               Tournament Information
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -289,7 +289,7 @@ export default function App() {
                 <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
               <h3 className="text-base sm:text-xl font-bold mb-1 sm:mb-2">Tournament Dates</h3>
-              <p className="text-muted-foreground text-xs sm:text-base mb-1 sm:mb-2">May 1-3, 2026</p>
+              <p className="text-muted-foreground text-xs sm:text-base mb-1 sm:mb-2">May 1,2,3, 2026</p>
               <p className="text-[10px] sm:text-sm text-muted-foreground line-clamp-2">3 days of competitive tennis action</p>
             </motion.div>
 
@@ -322,7 +322,7 @@ export default function App() {
               </div>
               <h3 className="text-base sm:text-xl font-bold mb-1 sm:mb-2">Categories</h3>
               <p className="text-muted-foreground text-xs sm:text-base mb-1 sm:mb-2">5 Age Groups</p>
-              <p className="text-[10px] sm:text-sm text-muted-foreground">Singles & Doubles Tournaments</p>
+              <p className="text-[10px] sm:text-sm text-muted-foreground">(U-12, U-14, U-16, U-18, Men's, Women's Singles & Doubles Tournaments</p>
             </motion.div>
 
             {/* Features (Now part of the same grid) */}
@@ -372,7 +372,7 @@ export default function App() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
               Match Schedule
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -400,7 +400,7 @@ export default function App() {
                 <Calendar className="w-10 h-10 text-white" />
               </motion.div>
 
-              <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent mb-2">
+              <h3 className="text-3xl md:text-5xl font-extrabold text-primary mb-2">
                 Schedule & Draws
               </h3>
               <h4 className="text-2xl md:text-3xl font-bold text-foreground mb-6">Coming Soon</h4>
@@ -429,7 +429,7 @@ export default function App() {
       >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
               Rules & Payment Info
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -572,7 +572,7 @@ export default function App() {
             viewport={{ once: true }}
             className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl p-8 md:p-12 border-2 border-white/30"
           >
-            <h2 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <h2 className="text-4xl font-bold mb-2 text-primary">
               Player Registration
             </h2>
             <p className="text-muted-foreground mb-8">Fill in your details to secure your spot in the tournament</p>
@@ -591,7 +591,7 @@ export default function App() {
                 >
                   <CheckCircle2 className="w-12 h-12 text-white" />
                 </motion.div>
-                <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                <h3 className="text-3xl font-bold mb-3 text-primary">
                   Registration Successful!
                 </h3>
                 <p className="text-muted-foreground mb-6">

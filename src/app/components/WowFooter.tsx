@@ -58,7 +58,7 @@ export function WowFooter() {
                 >
                   <stat.icon className="w-5 h-5 md:w-8 md:h-8 text-white" />
                 </motion.div>
-                <h3 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-1 md:mb-2">
+                <h3 className="text-2xl md:text-4xl font-bold text-primary mb-1 md:mb-2">
                   {stat.number}
                 </h3>
                 <p className="text-xs md:text-base text-white/60">{stat.label}</p>
@@ -78,7 +78,7 @@ export function WowFooter() {
             viewport={{ once: true }}
             className="lg:col-span-2"
           >
-            <h3 className="text-3xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+            <h3 className="text-3xl font-bold mb-4 text-primary">
               PERA SLAM 2026
             </h3>
             <p className="text-white/70 mb-6 max-w-md leading-relaxed">
