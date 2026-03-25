@@ -263,9 +263,9 @@ export default function App() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="relative py-24 px-8"
+          className="relative py-24 px-4 sm:px-8"
         >
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-7xl mx-auto bg-gradient-to-br from-gray-900/70 via-gray-800/70 to-gray-900/70 backdrop-blur-2xl border border-white/15 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 md:p-16 shadow-2xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -361,7 +361,7 @@ export default function App() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="py-24 px-8 relative overflow-hidden"
+          className="py-24 px-4 sm:px-8 relative overflow-hidden"
         >
           {/* Background decoration */}
           <div className="absolute inset-0 opacity-10">
@@ -369,7 +369,7 @@ export default function App() {
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary rounded-full blur-3xl" />
           </div>
 
-          <div className="max-w-5xl mx-auto relative z-10">
+          <div className="max-w-6xl mx-auto relative z-10 bg-gradient-to-br from-gray-900/70 via-gray-800/70 to-gray-900/70 backdrop-blur-2xl border border-white/15 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 md:p-16 shadow-2xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -429,9 +429,9 @@ export default function App() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="py-24 px-8 relative border-t border-white/10"
+          className="py-24 px-4 sm:px-8 relative"
         >
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-7xl mx-auto bg-gradient-to-br from-gray-900/70 via-gray-800/70 to-gray-900/70 backdrop-blur-2xl border border-white/15 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 md:p-16 shadow-2xl">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary drop-shadow-md">
                 Rules & Payment Info
@@ -565,12 +565,12 @@ export default function App() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white/25 backdrop-blur-2xl rounded-3xl shadow-2xl p-8 md:p-12 border border-white/40 text-white"
+              className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 md:p-12 border border-white/20"
             >
-              <h2 className="text-4xl font-bold mb-2 text-primary drop-shadow-md">
+              <h2 className="text-4xl font-bold mb-2 text-primary">
                 Player Registration
               </h2>
-              <p className="text-white/90 mb-8 text-lg drop-shadow-sm">Fill in your details to secure your spot in the tournament</p>
+              <p className="text-muted-foreground mb-8 text-lg">Fill in your details to secure your spot in the tournament</p>
 
               {isSubmitted ? (
                 <motion.div
@@ -586,14 +586,14 @@ export default function App() {
                   >
                     <CheckCircle2 className="w-12 h-12 text-white" />
                   </motion.div>
-                  <h3 className="text-3xl font-bold mb-3 text-primary drop-shadow-md">
+                  <h3 className="text-3xl font-bold mb-3 text-primary">
                     Registration Successful!
                   </h3>
-                  <p className="text-white/80 mb-6 text-lg">
+                  <p className="text-muted-foreground mb-6 text-lg">
                     Thank you for registering for Pera Slam 2026. Check your email for confirmation details and next steps.
                   </p>
                   <div className="flex justify-center">
-                    <Button onClick={() => setIsSubmitted(false)} variant="outline" className="border-white/30 text-white hover:bg-white/20">
+                    <Button onClick={() => setIsSubmitted(false)} variant="outline">
                       Register Another Player
                     </Button>
                   </div>
