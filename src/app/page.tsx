@@ -157,7 +157,7 @@ export default function App() {
             transition={{ delay: 2.4, duration: 0.8 }}
             className="relative"
           >
-            <div className="relative w-full aspect-square max-w-lg mx-auto">
+            <div className="relative w-64 md:w-full aspect-square max-w-sm md:max-w-lg mx-auto">
 
 
               {/* Main tennis image */}

@@ -41,7 +41,7 @@ export function WowFooter() {
       {/* Stats Banner */}
       <div className="relative border-b border-white/10">
         <div className="max-w-7xl mx-auto px-8 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-3 gap-4 md:gap-8">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
@@ -54,14 +54,14 @@ export function WowFooter() {
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 360 }}
                   transition={{ duration: 0.6 }}
-                  className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20"
+                  className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 md:mb-4 bg-gradient-to-br from-primary to-accent rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20"
                 >
-                  <stat.icon className="w-8 h-8 text-white" />
+                  <stat.icon className="w-5 h-5 md:w-8 md:h-8 text-white" />
                 </motion.div>
-                <h3 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
+                <h3 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-1 md:mb-2">
                   {stat.number}
                 </h3>
-                <p className="text-white/60">{stat.label}</p>
+                <p className="text-xs md:text-base text-white/60">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -139,8 +139,8 @@ export function WowFooter() {
                 <Mail className="w-5 h-5 mt-0.5 text-primary" />
                 <div>
                   <p className="text-sm text-white/50">Email</p>
-                  <a href="mailto:peraslam@pdn.ac.lk" className="hover:text-accent transition-colors">
-                    peraslam@pdn.ac.lk
+                  <a href="mailto:peraslamuop@gmail.com" className="hover:text-accent transition-colors">
+                    peraslamuop@gmail.com
                   </a>
                 </div>
               </div>
@@ -149,7 +149,7 @@ export function WowFooter() {
                 <div>
                   <p className="text-sm text-white/50">Phone</p>
                   <a href="tel:+94812388001" className="hover:text-accent transition-colors">
-                    +94 81 238 8001
+                    +94 77 00 715 66
                   </a>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Button } from "./Button";
 
 interface FloatingNavProps {
@@ -10,6 +10,7 @@ interface FloatingNavProps {
 
 export function FloatingNav({ peraLogo, tennisLogo }: FloatingNavProps) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +22,7 @@ export function FloatingNav({ peraLogo, tennisLogo }: FloatingNavProps) {
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -38,7 +40,7 @@ export function FloatingNav({ peraLogo, tennisLogo }: FloatingNavProps) {
               ? "0 20px 50px rgba(0, 0, 0, 0.1)"
               : "0 10px 30px rgba(0, 0, 0, 0.05)",
           }}
-          className={`bg-white/90 backdrop-blur-xl rounded-full border-2 border-white/20 px-8 py-4 transition-all duration-300 ${isScrolled ? "shadow-2xl" : ""
+          className={`bg-white/90 backdrop-blur-xl rounded-3xl border-2 border-white/20 px-8 py-4 transition-all duration-300 ${isScrolled ? "shadow-2xl" : ""
             }`}
         >
           <div className="flex items-center justify-between gap-8">
@@ -70,13 +72,13 @@ export function FloatingNav({ peraLogo, tennisLogo }: FloatingNavProps) {
 
             {/* Navigation Links */}
             <div className="hidden md:flex items-center gap-2">
-              <NavLink onClick={() => scrollToSection("registration-form")}>
+              <NavLink href="#registration-form" onClick={() => scrollToSection("registration-form")}>
                 Register
               </NavLink>
-              <NavLink onClick={() => scrollToSection("schedule")}>
+              <NavLink href="#schedule" onClick={() => scrollToSection("schedule")}>
                 Schedule
               </NavLink>
-              <NavLink onClick={() => scrollToSection("contact")}>
+              <NavLink href="#contact" onClick={() => scrollToSection("contact")}>
                 Contact
               </NavLink>
             </div>
@@ -92,27 +94,53 @@ export function FloatingNav({ peraLogo, tennisLogo }: FloatingNavProps) {
             </Button>
 
             {/* Mobile Menu Button */}
-            <button className="md:hidden p-2">
-              <div className="w-6 h-0.5 bg-foreground mb-1.5"></div>
-              <div className="w-6 h-0.5 bg-foreground mb-1.5"></div>
-              <div className="w-6 h-0.5 bg-foreground"></div>
+            <button 
+              className="md:hidden p-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              <div className={`w-6 h-0.5 bg-foreground transition-all ${isMobileMenuOpen ? "rotate-45 translate-y-2" : "mb-1.5"}`}></div>
+              <div className={`w-6 h-0.5 bg-foreground transition-all ${isMobileMenuOpen ? "opacity-0 mb-1.5" : "mb-1.5"}`}></div>
+              <div className={`w-6 h-0.5 bg-foreground transition-all ${isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""}`}></div>
             </button>
           </div>
+
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="md:hidden overflow-hidden flex flex-col gap-2 pt-4 mt-4 border-t border-border/50"
+              >
+                <NavLink href="#registration-form" onClick={() => scrollToSection("registration-form")}>Register</NavLink>
+                <NavLink href="#schedule" onClick={() => scrollToSection("schedule")}>Schedule</NavLink>
+                <NavLink href="#contact" onClick={() => scrollToSection("contact")}>Contact</NavLink>
+                <Button
+                  variant="primary"
+                  className="w-full mt-2"
+                  onClick={() => scrollToSection("registration-form")}
+                >
+                  Register Now
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </div>
     </motion.nav>
   );
 }
 
-function NavLink({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
+function NavLink({ children, href, onClick }: { children: React.ReactNode; href: string; onClick?: () => void }) {
   return (
-    <motion.button
+    <motion.a
+      href={href}
       onClick={onClick}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="px-4 py-2 rounded-full text-foreground/70 hover:text-primary hover:bg-primary/5 transition-all duration-200"
+      className="px-4 py-2 rounded-full text-foreground/70 hover:text-primary hover:bg-primary/5 transition-all duration-200 block text-center md:inline-block cursor-pointer"
     >
       {children}
-    </motion.button>
+    </motion.a>
   );
 }
