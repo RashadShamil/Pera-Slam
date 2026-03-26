@@ -125,10 +125,10 @@ export default function App() {
           });
         }
 
-        const eventType = formData.singlesCategories.length > 0 && formData.doublesCategories.length > 0 
-          ? "both" 
-          : formData.singlesCategories.length > 0 
-            ? "singles" 
+        const eventType = formData.singlesCategories.length > 0 && formData.doublesCategories.length > 0
+          ? "both"
+          : formData.singlesCategories.length > 0
+            ? "singles"
             : formData.doublesCategories.length > 0 ? "doubles" : "singles";
 
         const formattedCategories = [
@@ -146,7 +146,7 @@ export default function App() {
         };
 
         // === IMPORTANT: PASTE YOUR GOOGLE APPS SCRIPT URL HERE ===
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx2NbLBpTJeVJumY-rLFQcOwseyhGke3b2JTRoDbJQwhpZPL81xYuTNGmoCOPXNw6ZtlA/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYllfcTQ_bA6MGjp1E4PQOQMJp_SSk--5pJBvHgeBB2O9zf1YonQvjVQLDYzGXeTVVtg/exec";
 
         const response = await fetch(GOOGLE_SCRIPT_URL, {
           method: "POST",
