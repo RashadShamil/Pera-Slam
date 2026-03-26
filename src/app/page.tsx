@@ -71,8 +71,11 @@ export default function App() {
 
     if (!formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (!/^[0-9]{10}$/.test(formData.phone.replace(/\D/g, ""))) {
-      newErrors.phone = "Invalid phone number";
+    } else {
+      const digitsOnly = formData.phone.replace(/\D/g, "");
+      if (digitsOnly.length !== 10 && !(digitsOnly.length === 11 && digitsOnly.startsWith("94"))) {
+        newErrors.phone = "Invalid phone number";
+      }
     }
 
     if (formData.categories.length === 0) {
