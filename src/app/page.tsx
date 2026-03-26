@@ -19,7 +19,12 @@ interface FormData {
   fullName: string;
   email: string;
   phone: string;
-  ageCategory: string;
+  categories: string[];
+  eventType: string;
+  partnerName: string;
+  pastAchievements: string;
+  isUoPStudent: boolean;
+  uopRegNumber: string;
   paymentReceipt: File | null;
 }
 
@@ -27,7 +32,10 @@ interface FormErrors {
   fullName?: string;
   email?: string;
   phone?: string;
-  ageCategory?: string;
+  categories?: string;
+  eventType?: string;
+  partnerName?: string;
+  uopRegNumber?: string;
   paymentReceipt?: string;
 }
 
@@ -37,7 +45,12 @@ export default function App() {
     fullName: "",
     email: "",
     phone: "",
-    ageCategory: "",
+    categories: [],
+    eventType: "singles",
+    partnerName: "",
+    pastAchievements: "",
+    isUoPStudent: false,
+    uopRegNumber: "",
     paymentReceipt: null,
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -62,8 +75,25 @@ export default function App() {
       newErrors.phone = "Invalid phone number";
     }
 
-    if (!formData.ageCategory) {
-      newErrors.ageCategory = "Please select an age category";
+    if (formData.categories.length === 0) {
+      newErrors.categories = "Please select at least one tournament category";
+    }
+
+    if (!formData.eventType) {
+      newErrors.eventType = "Please select an event type";
+    }
+
+    if ((formData.eventType === "doubles" || formData.eventType === "both") && !formData.partnerName.trim()) {
+      newErrors.partnerName = "Partner's name is required";
+    }
+
+    const hasOpenCategory = formData.categories.includes("mens") || formData.categories.includes("womens");
+    if (
+      hasOpenCategory &&
+      formData.isUoPStudent &&
+      !formData.uopRegNumber.trim()
+    ) {
+      newErrors.uopRegNumber = "Registration number is required for UoP students";
     }
 
     if (!formData.paymentReceipt) {
@@ -74,22 +104,69 @@ export default function App() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      setIsSubmitted(true);
-      console.log("Form submitted:", formData);
+      setIsLoading(true);
+      try {
+        let base64File = "";
+        let fileName = "";
+        let mimeType = "";
+
+        // Convert the image file to Base64 so it can be sent via JSON
+        if (formData.paymentReceipt) {
+          fileName = formData.paymentReceipt.name;
+          mimeType = formData.paymentReceipt.type;
+          base64File = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(formData.paymentReceipt as File);
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = (error) => reject(error);
+          });
+        }
+
+        const payload = {
+          ...formData,
+          paymentReceipt: base64File,
+          fileName,
+          mimeType,
+        };
+
+        // === IMPORTANT: PASTE YOUR GOOGLE APPS SCRIPT URL HERE ===
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx2NbLBpTJeVJumY-rLFQcOwseyhGke3b2JTRoDbJQwhpZPL81xYuTNGmoCOPXNw6ZtlA/exec";
+
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify(payload), // Send as plain text JSON to avoid CORS preflight issues
+        });
+
+        const result = await response.json();
+
+        if (result.result === "success") {
+          setIsSubmitted(true);
+          console.log("Form submitted successfully!");
+        } else {
+          console.error("Script error:", result.error);
+          alert("There was an issue submitting your registration. Please try again.");
+        }
+      } catch (error) {
+        console.error("Network error:", error);
+        alert("Network error: Could not connect to the server. Please check your connection.");
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
-  const ageCategories = [
-    { value: "", label: "Select Age Category" },
-    { value: "under-18", label: "Under 18" },
-    { value: "18-25", label: "18-25 Years" },
-    { value: "26-35", label: "26-35 Years" },
-    { value: "36-45", label: "36-45 Years" },
-    { value: "above-45", label: "Above 45" },
+  const tournamentCategories = [
+    { value: "", label: "Select Category" },
+    { value: "u-12", label: "Under 12" },
+    { value: "u-14", label: "Under 14" },
+    { value: "u-16", label: "Under 16" },
+    { value: "u-18", label: "Under 18" },
+    { value: "mens", label: "Men's Open" },
+    { value: "womens", label: "Women's Open" },
   ];
 
   const features = [
@@ -521,9 +598,10 @@ export default function App() {
                     Transfer Details
                   </h4>
                   <div className="space-y-1 text-sm font-mono text-gray-300">
-                    <p><span className="text-gray-500">Bank:</span> Dummy Bank PLC</p>
-                    <p><span className="text-gray-500">Name:</span> Pera Slam Tennis</p>
-                    <p><span className="text-gray-500">Acct:</span> 1234 5678 9000</p>
+                    <p><span className="text-gray-500">Bank: </span>Bank of Ceylon</p>
+                    <p><span className="text-gray-500">Name: </span>MS A.N.GUNATHILAKE</p>
+                    <p><span className="text-gray-500">Acct: </span>0072891257</p>
+                    <p><span className="text-gray-500">Branch: </span>Kandy Teaching Hospital (454)</p>
                   </div>
                 </div>
               </div>
@@ -626,12 +704,85 @@ export default function App() {
                     error={errors.phone}
                   />
 
+                  <div className="space-y-3">
+                    <label className="text-sm font-medium text-black">Tournament Categories *</label>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {tournamentCategories.filter(c => c.value !== "").map((cat) => (
+                        <label key={cat.value} className="flex items-center gap-2 text-black/90 text-sm cursor-pointer p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
+                          <input
+                            type="checkbox"
+                            checked={formData.categories.includes(cat.value)}
+                            onChange={(e) => {
+                              const newCategories = e.target.checked
+                                ? [...formData.categories, cat.value]
+                                : formData.categories.filter(c => c !== cat.value);
+                              setFormData({ ...formData, categories: newCategories });
+                            }}
+                            className="w-4 h-4 rounded border-white/20 bg-black/20 text-primary focus:ring-primary transition-colors"
+                          />
+                          {cat.label}
+                        </label>
+                      ))}
+                    </div>
+                    {errors.categories && <p className="text-red-400 text-xs mt-1">{errors.categories}</p>}
+                  </div>
+
                   <Select
-                    label="Age Category"
-                    options={ageCategories}
-                    value={formData.ageCategory}
-                    onChange={(e) => setFormData({ ...formData, ageCategory: e.target.value })}
-                    error={errors.ageCategory}
+                    label="Event Type *"
+                    options={[
+                      { value: "singles", label: "Singles Only" },
+                      { value: "doubles", label: "Doubles Only" },
+                      { value: "both", label: "Both (Singles & Doubles)" }
+                    ]}
+                    value={formData.eventType}
+                    onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
+                    error={errors.eventType}
+                  />
+
+                  {(formData.eventType === "doubles" || formData.eventType === "both") && (
+                    <Input
+                      label="Partner's Name(s) *"
+                      placeholder="Enter your doubles partner(s) name"
+                      value={formData.partnerName}
+                      onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
+                      error={errors.partnerName}
+                    />
+                  )}
+
+                  {(formData.categories.includes("mens") || formData.categories.includes("womens")) && (
+                    <div className="space-y-4 p-5 border border-white/10 rounded-2xl bg-white/5">
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="checkbox"
+                          id="isUoPStudent"
+                          checked={formData.isUoPStudent}
+                          onChange={(e) => setFormData({ ...formData, isUoPStudent: e.target.checked })}
+                          className="w-5 h-5 rounded border-white/20 bg-black/20 text-primary focus:ring-primary focus:ring-offset-black transition-colors"
+                        />
+                        <label htmlFor="isUoPStudent" className="text-black text-sm font-medium cursor-pointer">
+                          Are you a University of Peradeniya student?
+                        </label>
+                      </div>
+
+                      {formData.isUoPStudent && (
+                        <div className="pt-2">
+                          <Input
+                            label="Registration Number"
+                            placeholder="e.g. S/19/xxx"
+                            value={formData.uopRegNumber}
+                            onChange={(e) => setFormData({ ...formData, uopRegNumber: e.target.value })}
+                            error={errors.uopRegNumber}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <Input
+                    label="Past Achievements (For seeding - Optional)"
+                    placeholder="Enter recent tournament wins, rankings, etc."
+                    value={formData.pastAchievements}
+                    onChange={(e) => setFormData({ ...formData, pastAchievements: e.target.value })}
                   />
 
                   <FileUpload
