@@ -19,8 +19,8 @@ interface FormData {
   fullName: string;
   email: string;
   phone: string;
-  categories: string[];
-  eventType: string;
+  singlesCategories: string[];
+  doublesCategories: string[];
   partnerName: string;
   pastAchievements: string;
   isUoPStudent: boolean;
@@ -33,7 +33,6 @@ interface FormErrors {
   email?: string;
   phone?: string;
   categories?: string;
-  eventType?: string;
   partnerName?: string;
   uopRegNumber?: string;
   paymentReceipt?: string;
@@ -45,8 +44,8 @@ export default function App() {
     fullName: "",
     email: "",
     phone: "",
-    categories: [],
-    eventType: "singles",
+    singlesCategories: [],
+    doublesCategories: [],
     partnerName: "",
     pastAchievements: "",
     isUoPStudent: false,
@@ -78,19 +77,16 @@ export default function App() {
       }
     }
 
-    if (formData.categories.length === 0) {
-      newErrors.categories = "Please select at least one tournament category";
+    const allCategories = [...formData.singlesCategories, ...formData.doublesCategories];
+    if (allCategories.length === 0) {
+      newErrors.categories = "Please select at least one tournament category (Singles or Doubles)";
     }
 
-    if (!formData.eventType) {
-      newErrors.eventType = "Please select an event type";
+    if (formData.doublesCategories.length > 0 && !formData.partnerName.trim()) {
+      newErrors.partnerName = "Partner's name is required for doubles events";
     }
 
-    if ((formData.eventType === "doubles" || formData.eventType === "both") && !formData.partnerName.trim()) {
-      newErrors.partnerName = "Partner's name is required";
-    }
-
-    const hasOpenCategory = formData.categories.includes("mens") || formData.categories.includes("womens");
+    const hasOpenCategory = allCategories.includes("mens") || allCategories.includes("womens");
     if (
       hasOpenCategory &&
       formData.isUoPStudent &&
@@ -129,8 +125,21 @@ export default function App() {
           });
         }
 
+        const eventType = formData.singlesCategories.length > 0 && formData.doublesCategories.length > 0 
+          ? "both" 
+          : formData.singlesCategories.length > 0 
+            ? "singles" 
+            : formData.doublesCategories.length > 0 ? "doubles" : "singles";
+
+        const formattedCategories = [
+          ...formData.singlesCategories.map(c => `${c} (Singles)`),
+          ...formData.doublesCategories.map(c => `${c} (Doubles)`)
+        ];
+
         const payload = {
           ...formData,
+          categories: formattedCategories,
+          eventType: eventType,
           paymentReceipt: base64File,
           fileName,
           mimeType,
@@ -707,52 +716,82 @@ export default function App() {
                     error={errors.phone}
                   />
 
-                  <div className="space-y-3">
-                    <label className="text-sm font-medium text-black">Tournament Categories *</label>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                      {tournamentCategories.filter(c => c.value !== "").map((cat) => (
-                        <label key={cat.value} className="flex items-center gap-2 text-black/90 text-sm cursor-pointer p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
-                          <input
-                            type="checkbox"
-                            checked={formData.categories.includes(cat.value)}
-                            onChange={(e) => {
-                              const newCategories = e.target.checked
-                                ? [...formData.categories, cat.value]
-                                : formData.categories.filter(c => c !== cat.value);
-                              setFormData({ ...formData, categories: newCategories });
-                            }}
-                            className="w-4 h-4 rounded border-white/20 bg-black/20 text-primary focus:ring-primary transition-colors"
-                          />
-                          {cat.label}
-                        </label>
-                      ))}
+                  <div className="space-y-4">
+                    <label className="text-sm font-medium text-black">Tournament Categories & Events *</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Singles Column */}
+                      <div className="space-y-3 p-4 border border-white/10 rounded-xl bg-white/5">
+                        <div className="font-semibold text-black/90 pb-2 border-b border-white/10">
+                          Singles Categories
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          {tournamentCategories.filter(c => c.value !== "").map((cat) => (
+                            <label key={`singles-${cat.value}`} className="flex items-center gap-2 text-black/90 text-sm cursor-pointer p-2 rounded-lg hover:bg-white/10 transition-colors">
+                              <input
+                                type="checkbox"
+                                checked={formData.singlesCategories.includes(cat.value)}
+                                onChange={(e) => {
+                                  const newCategories = e.target.checked
+                                    ? [...formData.singlesCategories, cat.value]
+                                    : formData.singlesCategories.filter(c => c !== cat.value);
+                                  setFormData({ ...formData, singlesCategories: newCategories });
+                                }}
+                                className="w-4 h-4 rounded border-white/20 bg-black/20 text-primary focus:ring-primary transition-colors"
+                              />
+                              {cat.label}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Doubles Column */}
+                      <div className="space-y-3 p-4 border border-white/10 rounded-xl bg-white/5">
+                        <div className="font-semibold text-black/90 pb-2 border-b border-white/10">
+                          Doubles Categories
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          {tournamentCategories.filter(c => c.value !== "").map((cat) => (
+                            <label key={`doubles-${cat.value}`} className="flex items-center gap-2 text-black/90 text-sm cursor-pointer p-2 rounded-lg hover:bg-white/10 transition-colors">
+                              <input
+                                type="checkbox"
+                                checked={formData.doublesCategories.includes(cat.value)}
+                                onChange={(e) => {
+                                  const newCategories = e.target.checked
+                                    ? [...formData.doublesCategories, cat.value]
+                                    : formData.doublesCategories.filter(c => c !== cat.value);
+                                  setFormData({ ...formData, doublesCategories: newCategories });
+                                }}
+                                className="w-4 h-4 rounded border-white/20 bg-black/20 text-primary focus:ring-primary transition-colors"
+                              />
+                              {cat.label}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                    {errors.categories && <p className="text-red-400 text-xs mt-1">{errors.categories}</p>}
+                    {errors.categories && <p className="text-red-500 text-xs mt-1">{errors.categories}</p>}
                   </div>
 
-                  <Select
-                    label="Event Type *"
-                    options={[
-                      { value: "singles", label: "Singles Only" },
-                      { value: "doubles", label: "Doubles Only" },
-                      { value: "both", label: "Both (Singles & Doubles)" }
-                    ]}
-                    value={formData.eventType}
-                    onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
-                    error={errors.eventType}
-                  />
-
-                  {(formData.eventType === "doubles" || formData.eventType === "both") && (
-                    <Input
-                      label="Partner's Name(s) *"
-                      placeholder="Enter your doubles partner(s) name"
-                      value={formData.partnerName}
-                      onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
-                      error={errors.partnerName}
-                    />
+                  {formData.doublesCategories.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="pt-2">
+                        <Input
+                          label="Partner's Name(s) *"
+                          placeholder="Enter your doubles partner(s) name"
+                          value={formData.partnerName}
+                          onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
+                          error={errors.partnerName}
+                        />
+                      </div>
+                    </motion.div>
                   )}
 
-                  {(formData.categories.includes("mens") || formData.categories.includes("womens")) && (
+                  {(formData.singlesCategories.includes("mens") || formData.singlesCategories.includes("womens") || formData.doublesCategories.includes("mens") || formData.doublesCategories.includes("womens")) && (
                     <div className="space-y-4 p-5 border border-white/10 rounded-2xl bg-white/5">
                       <div className="flex items-center gap-3">
                         <input
