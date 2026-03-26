@@ -173,10 +173,14 @@ export default function App() {
 
   const tournamentCategories = [
     { value: "", label: "Select Category" },
-    { value: "u-12", label: "Under 12" },
-    { value: "u-14", label: "Under 14" },
-    { value: "u-16", label: "Under 16" },
-    { value: "u-18", label: "Under 18" },
+    { value: "boys-u-12", label: "Boys Under 12" },
+    { value: "girls-u-12", label: "Girls Under 12" },
+    { value: "boys-u-14", label: "Boys Under 14" },
+    { value: "girls-u-14", label: "Girls Under 14" },
+    { value: "boys-u-16", label: "Boys Under 16" },
+    { value: "girls-u-16", label: "Girls Under 16" },
+    { value: "boys-u-18", label: "Boys Under 18" },
+    { value: "girls-u-18", label: "Girls Under 18" },
     { value: "mens", label: "Men's Open" },
     { value: "womens", label: "Women's Open" },
   ];
@@ -414,8 +418,8 @@ export default function App() {
                   <Users className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
                 <h3 className="text-base sm:text-xl font-bold mb-1 sm:mb-2 text-white">Categories</h3>
-                <p className="text-white/90 text-xs sm:text-base mb-1 sm:mb-2">5 Age Groups</p>
-                <p className="text-[10px] sm:text-sm text-white/70">U-12, U-14, U-16, U-18, Men's, Women's Singles & Doubles Tournaments</p>
+                <p className="text-white/90 text-xs sm:text-base mb-1 sm:mb-2">Boys, Girls & Open</p>
+                <p className="text-[10px] sm:text-sm text-white/70">Boys & Girls U-12, U-14, U-16, U-18, Men's, Women's Singles & Doubles Tournaments</p>
               </motion.div>
 
               {/* Features (Now part of the same grid) */}
