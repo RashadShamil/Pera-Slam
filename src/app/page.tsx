@@ -19,6 +19,7 @@ interface FormData {
   fullName: string;
   email: string;
   phone: string;
+  dob: string;
   singlesCategories: string[];
   doublesCategories: string[];
   partnerName: string;
@@ -32,6 +33,7 @@ interface FormErrors {
   fullName?: string;
   email?: string;
   phone?: string;
+  dob?: string;
   categories?: string;
   partnerName?: string;
   uopRegNumber?: string;
@@ -44,6 +46,7 @@ export default function App() {
     fullName: "",
     email: "",
     phone: "",
+    dob: "",
     singlesCategories: [],
     doublesCategories: [],
     partnerName: "",
@@ -77,9 +80,34 @@ export default function App() {
       }
     }
 
+    if (!formData.dob) {
+      newErrors.dob = "Date of Birth is required";
+    }
+
     const allCategories = [...formData.singlesCategories, ...formData.doublesCategories];
     if (allCategories.length === 0) {
       newErrors.categories = "Please select at least one tournament category (Singles or Doubles)";
+    }
+
+    if (formData.dob) {
+      const cutoffDate = new Date("2026-05-01");
+      const birthDate = new Date(formData.dob);
+      let age = cutoffDate.getFullYear() - birthDate.getFullYear();
+      const m = cutoffDate.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && cutoffDate.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      const checkAge = (level: number) => {
+        if (allCategories.some(c => c.includes(`u-${level}`)) && age > level) {
+          newErrors.dob = `You must be ${level} or under as of May 1st, 2026 to play in U-${level}.`;
+        }
+      };
+
+      checkAge(12);
+      if (!newErrors.dob) checkAge(14);
+      if (!newErrors.dob) checkAge(16);
+      if (!newErrors.dob) checkAge(18);
     }
 
     if (formData.doublesCategories.length > 0 && !formData.partnerName.trim()) {
@@ -146,7 +174,7 @@ export default function App() {
         };
 
         // === IMPORTANT: PASTE YOUR GOOGLE APPS SCRIPT URL HERE ===
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYllfcTQ_bA6MGjp1E4PQOQMJp_SSk--5pJBvHgeBB2O9zf1YonQvjVQLDYzGXeTVVtg/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzRrJK1VVuMiYqPEmRuNLhOUgvuongIcZz6hvaeU8KXnBENXcnkSjU8-HKTGZNrcsAa6w/exec";
 
         const response = await fetch(GOOGLE_SCRIPT_URL, {
           method: "POST",
@@ -720,8 +748,18 @@ export default function App() {
                     error={errors.phone}
                   />
 
+                  <Input
+                    label="Date of Birth*"
+                    type="date"
+                    value={formData.dob}
+                    onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
+                    error={errors.dob}
+                  />
+
                   <div className="space-y-4">
-                    <label className="text-sm font-medium text-black">Tournament Categories & Events *</label>
+                    <label className="text-sm font-medium text-black">Tournament Categories & Events*</label>
+                    <br />
+                    <label className="text-sm font-medium text-black">(Example: You must be 12 or under as of May 1st, 2026 to play in U-12)</label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Singles Column */}
                       <div className="space-y-3 p-4 border border-white/10 rounded-xl bg-white/5">
