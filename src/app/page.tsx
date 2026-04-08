@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, FormEvent } from "react";
+import imageCompression from "browser-image-compression";
 import { motion, AnimatePresence } from "motion/react";
 import { Calendar, MapPin, Users, Info, Trophy, Clock, CheckCircle2, Download, ShieldAlert, CreditCard, PhoneCall, ScrollText } from "lucide-react";
 import { Button } from "./components/Button";
@@ -22,7 +23,7 @@ interface FormData {
   dob: string;
   singlesCategories: string[];
   doublesCategories: string[];
-  partnerName: string;
+  partnerNames: { [key: string]: string };
   pastAchievements: string;
   isUoPStudent: boolean;
   uopRegNumber: string;
@@ -35,10 +36,25 @@ interface FormErrors {
   phone?: string;
   dob?: string;
   categories?: string;
-  partnerName?: string;
+  partnerNames?: { [key: string]: string };
   uopRegNumber?: string;
   paymentReceipt?: string;
 }
+
+const tournamentCategories = [
+  { value: "", label: "Select Category" },
+  { value: "boys-u-12", label: "Boys Under 12" },
+  { value: "girls-u-12", label: "Girls Under 12" },
+  { value: "boys-u-14", label: "Boys Under 14" },
+  { value: "girls-u-14", label: "Girls Under 14" },
+  { value: "boys-u-16", label: "Boys Under 16" },
+  { value: "girls-u-16", label: "Girls Under 16" },
+  { value: "boys-u-18", label: "Boys Under 18" },
+  { value: "girls-u-18", label: "Girls Under 18" },
+  { value: "mens", label: "Men's Open" },
+  { value: "womens", label: "Women's Open" },
+  { value: "mixed", label: "Mixed Open" },
+];
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +65,7 @@ export default function App() {
     dob: "",
     singlesCategories: [],
     doublesCategories: [],
-    partnerName: "",
+    partnerNames: {},
     pastAchievements: "",
     isUoPStudent: false,
     uopRegNumber: "",
@@ -110,11 +126,21 @@ export default function App() {
       if (!newErrors.dob) checkAge(18);
     }
 
-    if (formData.doublesCategories.length > 0 && !formData.partnerName.trim()) {
-      newErrors.partnerName = "Partner's name is required for doubles events";
+    if (formData.doublesCategories.length > 0) {
+      const pErrors: { [key: string]: string } = {};
+      let hasError = false;
+      formData.doublesCategories.forEach(cat => {
+        if (!formData.partnerNames[cat]?.trim()) {
+          pErrors[cat] = "Partner's name is required";
+          hasError = true;
+        }
+      });
+      if (hasError) {
+        newErrors.partnerNames = pErrors;
+      }
     }
 
-    const hasOpenCategory = allCategories.includes("mens") || allCategories.includes("womens");
+    const hasOpenCategory = allCategories.includes("mens") || allCategories.includes("womens") || allCategories.includes("mixed");
     if (
       hasOpenCategory &&
       formData.isUoPStudent &&
@@ -141,13 +167,27 @@ export default function App() {
         let fileName = "";
         let mimeType = "";
 
-        // Convert the image file to Base64 so it can be sent via JSON
+        // Compress and convert the image file to Base64 so it can be sent via JSON
         if (formData.paymentReceipt) {
-          fileName = formData.paymentReceipt.name;
-          mimeType = formData.paymentReceipt.type;
+          let fileToProcess = formData.paymentReceipt as File;
+
+          if (fileToProcess.type.startsWith("image/")) {
+            try {
+              fileToProcess = await imageCompression(fileToProcess, {
+                maxSizeMB: 0.3, // Compress down to max 300KB
+                maxWidthOrHeight: 1024,
+                useWebWorker: true,
+              });
+            } catch (err) {
+              console.warn("Compression failed, using original", err);
+            }
+          }
+
+          fileName = fileToProcess.name;
+          mimeType = fileToProcess.type;
           base64File = await new Promise((resolve, reject) => {
             const reader = new FileReader();
-            reader.readAsDataURL(formData.paymentReceipt as File);
+            reader.readAsDataURL(fileToProcess);
             reader.onload = () => resolve(reader.result as string);
             reader.onerror = (error) => reject(error);
           });
@@ -164,8 +204,16 @@ export default function App() {
           ...formData.doublesCategories.map(c => `${c} (Doubles)`)
         ];
 
+        const formattedPartnerName = formData.doublesCategories.map(cat => {
+          const catLabel = tournamentCategories.find(c => c.value === cat)?.label || cat;
+          return `${catLabel}: ${formData.partnerNames[cat] || ''}`;
+        }).join(', ');
+
+        const { partnerNames, ...restFormData } = formData;
+
         const payload = {
-          ...formData,
+          ...restFormData,
+          partnerName: formattedPartnerName,
           categories: formattedCategories,
           eventType: eventType,
           paymentReceipt: base64File,
@@ -174,7 +222,7 @@ export default function App() {
         };
 
         // === IMPORTANT: PASTE YOUR GOOGLE APPS SCRIPT URL HERE ===
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzRrJK1VVuMiYqPEmRuNLhOUgvuongIcZz6hvaeU8KXnBENXcnkSjU8-HKTGZNrcsAa6w/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-0XKx9Yfz9wH_2ZD3E9AVL_fwrpFXRSkL7KhGkpA56QLMCL4bFYk3riDFJ-phJYdSHA/exec";
 
         const response = await fetch(GOOGLE_SCRIPT_URL, {
           method: "POST",
@@ -199,19 +247,7 @@ export default function App() {
     }
   };
 
-  const tournamentCategories = [
-    { value: "", label: "Select Category" },
-    { value: "boys-u-12", label: "Boys Under 12" },
-    { value: "girls-u-12", label: "Girls Under 12" },
-    { value: "boys-u-14", label: "Boys Under 14" },
-    { value: "girls-u-14", label: "Girls Under 14" },
-    { value: "boys-u-16", label: "Boys Under 16" },
-    { value: "girls-u-16", label: "Girls Under 16" },
-    { value: "boys-u-18", label: "Boys Under 18" },
-    { value: "girls-u-18", label: "Girls Under 18" },
-    { value: "mens", label: "Men's Open" },
-    { value: "womens", label: "Women's Open" },
-  ];
+
 
   const features = [
     {
@@ -767,7 +803,7 @@ export default function App() {
                           Singles Categories
                         </div>
                         <div className="flex flex-col gap-2">
-                          {tournamentCategories.filter(c => c.value !== "").map((cat) => (
+                          {tournamentCategories.filter(c => c.value !== "" && c.value !== "mixed").map((cat) => (
                             <label key={`singles-${cat.value}`} className="flex items-center gap-2 text-black/90 text-sm cursor-pointer p-2 rounded-lg hover:bg-white/10 transition-colors">
                               <input
                                 type="checkbox"
@@ -821,19 +857,29 @@ export default function App() {
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
                     >
-                      <div className="pt-2">
-                        <Input
-                          label="Partner's Name(s) *"
-                          placeholder="Enter your doubles partner(s) name"
-                          value={formData.partnerName}
-                          onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
-                          error={errors.partnerName}
-                        />
+                      <div className="pt-2 space-y-4">
+                        <p className="text-sm font-medium text-black">Partner Details</p>
+                        {formData.doublesCategories.map(category => {
+                          const catLabel = tournamentCategories.find(c => c.value === category)?.label || category;
+                          return (
+                            <Input
+                              key={category}
+                              label={`Partner's Name for ${catLabel} *`}
+                              placeholder={`Enter partner name`}
+                              value={formData.partnerNames[category] || ""}
+                              onChange={(e) => setFormData({
+                                ...formData,
+                                partnerNames: { ...formData.partnerNames, [category]: e.target.value }
+                              })}
+                              error={errors.partnerNames?.[category]}
+                            />
+                          );
+                        })}
                       </div>
                     </motion.div>
                   )}
 
-                  {(formData.singlesCategories.includes("mens") || formData.singlesCategories.includes("womens") || formData.doublesCategories.includes("mens") || formData.doublesCategories.includes("womens")) && (
+                  {(formData.singlesCategories.includes("mens") || formData.singlesCategories.includes("womens") || formData.doublesCategories.includes("mens") || formData.doublesCategories.includes("womens") || formData.doublesCategories.includes("mixed")) && (
                     <div className="space-y-4 p-5 border border-white/10 rounded-2xl bg-white/5">
                       <div className="flex items-center gap-3">
                         <input
