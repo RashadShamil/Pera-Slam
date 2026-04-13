@@ -12,6 +12,9 @@ import { FloatingNav } from "./components/FloatingNav";
 import { WowFooter } from "./components/WowFooter";
 import peraLogoImg from "@/assets/peraLogo.png";
 import tennisLogoImg from "@/assets/tennisLogo.png";
+import firstPoster from "@/assets/first.jpeg";
+import secondPoster from "@/assets/second.jpeg";
+import thirdPoster from "@/assets/third.png";
 
 const peraLogo = peraLogoImg.src; // Placeholder for university logo
 const tennisLogo = tennisLogoImg.src;
@@ -511,6 +514,8 @@ export default function App() {
           </div>
         </motion.section>
 
+
+
         {/* Match Schedule Section */}
         <motion.section
           id="schedule"
@@ -701,9 +706,22 @@ export default function App() {
                 You must complete your payment bank transfer <strong className="text-white">before</strong> filling out the form.
                 Please capture a screenshot of your successful transaction to upload in the payment receipt section below.
               </p>
-              <div className="flex items-center justify-center gap-2 text-white font-semibold bg-white/20 backdrop-blur-lg border border-white/20 inline-flex px-6 py-3 rounded-full shadow-lg">
+              <div className="flex items-center justify-center gap-2 text-white font-semibold bg-white/20 backdrop-blur-lg border border-white/20 inline-flex px-6 py-3 rounded-full shadow-lg mb-8">
                 <PhoneCall className="w-5 h-5 text-accent" />
                 Facing difficulties? Call 077 007 1566
+              </div>
+
+              {/* Video Embed */}
+              <div className="mt-4 relative max-w-2xl mx-auto rounded-3xl overflow-hidden border border-white/20 shadow-2xl bg-black/60 backdrop-blur-md p-2">
+                <h4 className="text-lg font-semibold text-white/90 mb-3">How to Register</h4>
+                <div className="rounded-2xl overflow-hidden bg-black relative aspect-video">
+                  <video 
+                    src="/register_video.mp4" 
+                    controls 
+                    preload="metadata"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               </div>
             </motion.div>
           </div>
@@ -929,6 +947,30 @@ export default function App() {
               )}
             </motion.div>
           </motion.div>
+        </section>
+
+        {/* Gallery Section */}
+        <section className="py-16 px-4 relative z-10 border-t border-white/10" id="gallery">
+          <div className="max-w-6xl mx-auto flex flex-col items-center">
+            <h2 className="text-3xl md:text-5xl font-bold mb-10 text-primary drop-shadow-md">
+              Gallery
+            </h2>
+            <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8">
+              {[firstPoster.src, secondPoster.src, thirdPoster.src].map((posterSrc, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.15 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="h-80 sm:h-96 md:h-[420px] rounded-2xl flex-shrink-0 overflow-hidden shadow-2xl border-2 border-white/10 hover:border-primary/50 transition-all bg-black/50 group cursor-pointer"
+                >
+                  <img src={posterSrc} alt={`Gallery Poster ${index + 1}`} className="h-full w-auto object-cover transition-transform duration-700 group-hover:scale-105" />
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </section>
 
         {/* Wow Footer */}
