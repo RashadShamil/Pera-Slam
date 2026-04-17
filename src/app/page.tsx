@@ -30,6 +30,7 @@ interface FormData {
   pastAchievements: string;
   isUoPStudent: boolean;
   uopRegNumber: string;
+  paymentOption: "paid" | "cash";
   paymentReceipt: File | null;
 }
 
@@ -72,6 +73,7 @@ export default function App() {
     pastAchievements: "",
     isUoPStudent: false,
     uopRegNumber: "",
+    paymentOption: "paid",
     paymentReceipt: null,
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -152,7 +154,7 @@ export default function App() {
       newErrors.uopRegNumber = "Registration number is required for UoP students";
     }
 
-    if (!formData.paymentReceipt) {
+    if (formData.paymentOption === "paid" && !formData.paymentReceipt) {
       newErrors.paymentReceipt = "Payment receipt is required";
     }
 
@@ -677,6 +679,7 @@ export default function App() {
                   </div>
                 </div>
 
+                {/* Transfer Details hidden for now
                 <div className="bg-black/40 backdrop-blur-md text-white p-6 rounded-2xl relative z-10 shadow-inner border border-white/10">
                   <h4 className="font-semibold mb-3 flex items-center gap-2">
                     <ShieldAlert className="w-5 h-5 text-accent" />
@@ -689,6 +692,7 @@ export default function App() {
                     <p><span className="text-gray-500">Branch: </span>Kandy Teaching Hospital (454)</p>
                   </div>
                 </div>
+                */}
               </div>
             </div>
 
@@ -703,8 +707,7 @@ export default function App() {
                 Registration Instructions
               </h3>
               <p className="text-white/80 mb-4 text-lg">
-                You must complete your payment bank transfer <strong className="text-white">before</strong> filling out the form.
-                Please capture a screenshot of your successful transaction to upload in the payment receipt section below.
+                You can choose to <strong className="text-white">Pay in Cash on the Day</strong> of the tournament, or upload a payment receipt if you have <strong className="text-white">Already Paid</strong> via bank transfer.
               </p>
               <div className="flex items-center justify-center gap-2 text-white font-semibold bg-white/20 backdrop-blur-lg border border-white/20 inline-flex px-6 py-3 rounded-full shadow-lg mb-8">
                 <PhoneCall className="w-5 h-5 text-accent" />
@@ -933,12 +936,42 @@ export default function App() {
                     onChange={(e) => setFormData({ ...formData, pastAchievements: e.target.value })}
                   />
 
-                  <FileUpload
-                    label="Payment Receipt"
-                    onFileSelect={(file) => setFormData({ ...formData, paymentReceipt: file })}
-                    error={errors.paymentReceipt}
-                    accept="image/*,.pdf"
-                  />
+                  <div className="space-y-4 p-5 border border-white/10 rounded-2xl bg-white/5">
+                    <label className="text-black text-sm font-medium">Payment Option*</label>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <label className="flex items-center gap-2 cursor-pointer text-black/90 text-sm">
+                        <input
+                          type="radio"
+                          name="paymentOption"
+                          value="paid"
+                          checked={formData.paymentOption === "paid"}
+                          onChange={(e) => setFormData({ ...formData, paymentOption: e.target.value as "paid" | "cash" })}
+                          className="w-4 h-4 text-primary focus:ring-primary"
+                        />
+                        Already Paid
+                      </label>
+                      <label className="flex items-center gap-2 cursor-pointer text-black/90 text-sm">
+                        <input
+                          type="radio"
+                          name="paymentOption"
+                          value="cash"
+                          checked={formData.paymentOption === "cash"}
+                          onChange={(e) => setFormData({ ...formData, paymentOption: e.target.value as "paid" | "cash", paymentReceipt: null })}
+                          className="w-4 h-4 text-primary focus:ring-primary"
+                        />
+                        Pay in Cash on the Day
+                      </label>
+                    </div>
+                  </div>
+
+                  {formData.paymentOption === "paid" && (
+                    <FileUpload
+                      label="Payment Receipt"
+                      onFileSelect={(file) => setFormData({ ...formData, paymentReceipt: file })}
+                      error={errors.paymentReceipt}
+                      accept="image/*,.pdf"
+                    />
+                  )}
 
                   <Button type="submit" size="lg" className="w-full mt-8 shadow-xl shadow-primary/20">
                     Submit Registration
