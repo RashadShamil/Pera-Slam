@@ -623,7 +623,7 @@ export default function App() {
                       Juniors (U-12 to U-18)
                     </div>
                     <p className="text-sm text-white/70 leading-relaxed ml-6">
-                      <strong className="text-white">First to reach 7 games.</strong> If the score ties at 6-6, a standard 7-point tiebreaker is played to determine the winner of that 7th game.
+                      <strong className="text-white">First to reach 6 games.</strong> If the score ties at 5-5, a standard 7-point tiebreaker is played to determine the winner of that 7th game.
                       <br /><span className="inline-block mt-2 px-2 py-0.5 bg-primary/20 text-primary-50 text-xs font-bold rounded">Finals: First to reach 2 sets</span>
                     </p>
                   </div>
