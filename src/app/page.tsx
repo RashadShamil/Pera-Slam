@@ -634,7 +634,7 @@ export default function App() {
                       Open Matches & Junior Finals
                     </div>
                     <p className="text-sm text-white/70 leading-relaxed ml-6">
-                      <strong className="text-white">First to reach 2 sets.</strong> A player must win two full sets (first to 6 games, leading by 2) to claim the match victory.
+                      <strong className="text-white">First to reach 2 sets.</strong> A player must win two full sets (first to 4 games, leading by 2) to claim the match victory. if 1-1 then tightbeaker of 7 points.
                     </p>
                   </div>
                   <div className="bg-white/5 p-4 rounded-xl border border-white/10 hover:border-primary/50 transition-colors">
@@ -718,9 +718,9 @@ export default function App() {
               <div className="mt-4 relative max-w-2xl mx-auto rounded-3xl overflow-hidden border border-white/20 shadow-2xl bg-black/60 backdrop-blur-md p-2">
                 <h4 className="text-lg font-semibold text-white/90 mb-3">How to Register</h4>
                 <div className="rounded-2xl overflow-hidden bg-black relative aspect-video">
-                  <video 
-                    src="/register_video.mp4" 
-                    controls 
+                  <video
+                    src="/register_video.mp4"
+                    controls
                     preload="metadata"
                     className="w-full h-full object-contain"
                   />
