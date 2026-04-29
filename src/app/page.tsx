@@ -746,12 +746,40 @@ export default function App() {
               viewport={{ once: true }}
               className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 md:p-12 border border-white/20"
             >
-              <h2 className="text-4xl font-bold mb-2 text-primary">
+              <h2 className="text-4xl font-bold mb-2 text-primary text-center">
                 Player Registration
               </h2>
-              <p className="text-muted-foreground mb-8 text-lg">Fill in your details to secure your spot in the tournament</p>
 
-              {isSubmitted ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-8"
+              >
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                  className="w-24 h-24 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl shadow-primary/30"
+                >
+                  <ShieldAlert className="w-12 h-12 text-white" />
+                </motion.div>
+                <h3 className="text-3xl font-bold mb-3 text-primary">
+                  Registrations Closed
+                </h3>
+                <p className="text-muted-foreground mb-6 text-lg max-w-lg mx-auto">
+                  Thank you for your interest! The player registration window for Pera Slam 2026 has officially closed. We look forward to seeing you at the tournament!
+                </p>
+                <div className="flex justify-center mt-6">
+                  <Button onClick={() => document.getElementById("schedule")?.scrollIntoView({ behavior: "smooth" })} variant="outline">
+                    View Schedule
+                  </Button>
+                </div>
+              </motion.div>
+
+              <div className="hidden">
+                <p className="text-muted-foreground mb-8 text-lg">Fill in your details to secure your spot in the tournament</p>
+
+                {isSubmitted ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -978,6 +1006,7 @@ export default function App() {
                   </Button>
                 </form>
               )}
+              </div>
             </motion.div>
           </motion.div>
         </section>
