@@ -528,12 +528,12 @@ export default function App() {
           className="py-24 px-4 sm:px-8 relative overflow-hidden"
         >
           {/* Background decoration */}
-          <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
             <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary rounded-full blur-3xl" />
           </div>
 
-          <div className="max-w-6xl mx-auto relative z-10 bg-gradient-to-br from-gray-900/70 via-gray-800/70 to-gray-900/70 backdrop-blur-2xl border border-white/15 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 md:p-16 shadow-2xl">
+          <div className="max-w-7xl mx-auto relative z-10 bg-gradient-to-br from-gray-900/70 via-gray-800/70 to-gray-900/70 backdrop-blur-2xl border border-white/15 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 md:p-16 shadow-2xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -541,48 +541,209 @@ export default function App() {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary drop-shadow-md">
-                Match Schedule
+                Schedule & Draws
               </h2>
               <p className="text-white/80 max-w-2xl mx-auto text-lg drop-shadow">
-                Three days of exciting matches and ceremonies
+                Official tournament schedule and match draws are now available.
               </p>
             </motion.div>
 
-            {/* Interactive 'Coming Soon' Placeholder */}
+            {/* Order of Play Section */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="w-full max-w-3xl mx-auto mt-8 relative group"
+              className="max-w-4xl mx-auto mb-16"
             >
-              {/* Glowing background effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-secondary rounded-3xl blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700"></div>
+              <h3 className="text-2xl md:text-3xl font-bold text-center text-white mb-8 flex items-center justify-center gap-3">
+                <Clock className="w-7 h-7 text-primary" />
+                Order of Play
+                <Clock className="w-7 h-7 text-primary" />
+              </h3>
 
-              {/* Glossy Card */}
-              <div className="relative bg-white/10 backdrop-blur-md border border-white/20 p-10 md:p-16 text-center rounded-3xl shadow-2xl text-white">
-                <motion.div
-                  animate={{ rotate: [0, 5, -5, 0], y: [0, -5, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="w-20 h-20 mx-auto bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mb-6 shadow-xl shadow-primary/30"
-                >
-                  <Calendar className="w-10 h-10 text-white" />
-                </motion.div>
+              {/* Friday Card */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="relative group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-secondary rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-700"></div>
 
-                <h3 className="text-3xl md:text-5xl font-extrabold text-primary mb-2 drop-shadow-md">
-                  Schedule & Draws
-                </h3>
-                <h4 className="text-2xl md:text-3xl font-bold text-white mb-6 drop-shadow-sm">Coming Soon</h4>
+                <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 p-8 md:p-10 flex flex-col md:flex-row items-center justify-between rounded-3xl shadow-2xl text-white overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-bl-full blur-3xl -z-10"></div>
 
-                <p className="text-lg text-white/80 max-w-xl mx-auto mb-8 font-medium">
-                  Get your rackets ready! The official match schedule and the comprehensive tournament draw tree will be revealed right here after player registrations close.
-                </p>
+                  <div className="flex items-center gap-6 mb-6 md:mb-0 relative z-10">
+                    <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center shadow-xl shadow-primary/30 shrink-0 relative">
+                      <Calendar className="w-8 h-8 text-white" />
+                      <span className="absolute -top-2 -right-2 bg-accent text-white text-xs font-bold px-2 py-0.5 rounded-full shadow">Day 1</span>
+                    </div>
+                    <div>
+                      <p className="text-primary font-semibold text-sm uppercase tracking-widest mb-1">May 1st, 2026</p>
+                      <h4 className="text-2xl md:text-3xl font-extrabold text-white drop-shadow-md">Friday — Order of Play</h4>
+                      <p className="text-white/70 text-sm mt-1">Full schedule of matches for Day 1</p>
+                    </div>
+                  </div>
 
-                <div className="inline-flex items-center gap-2 px-6 py-3 bg-primary/20 border border-primary/30 text-primary rounded-full font-bold">
-                  <Clock className="w-5 h-5 animate-pulse" />
-                  Stay Tuned
+                  <a
+                    href="/draws/order_of_play_friday.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative z-10 inline-flex items-center gap-2 px-8 py-4 bg-primary text-white hover:bg-primary/90 transition-all rounded-full font-bold shadow-lg shadow-primary/30 hover:scale-105 duration-200 shrink-0"
+                  >
+                    <Download className="w-5 h-5" />
+                    View PDF
+                  </a>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
+
+            {/* Draws Grid */}
+            <div className="max-w-6xl mx-auto">
+              <h3 className="text-2xl md:text-3xl font-bold text-center text-white mb-10 flex items-center justify-center gap-3">
+                <Trophy className="w-8 h-8 text-accent" />
+                Tournament Draws
+                <Trophy className="w-8 h-8 text-accent" />
+              </h3>
+
+              {/* Category groups */}
+              {[
+                {
+                  category: "Boys Under 12",
+                  color: "from-blue-500 to-cyan-400",
+                  accent: "blue",
+                  draws: [
+                    { event: "Singles", link: "/draws/boys_u12_singles.pdf" },
+                    { event: "Doubles", link: "/draws/boys_u12_doubles.pdf" },
+                  ],
+                },
+                {
+                  category: "Girls Under 12",
+                  color: "from-pink-500 to-rose-400",
+                  accent: "pink",
+                  draws: [
+                    { event: "Singles", link: "/draws/girls_u12_singles.pdf" },
+                  ],
+                },
+                {
+                  category: "Girls Under 14",
+                  color: "from-pink-500 to-rose-400",
+                  accent: "pink",
+                  draws: [
+                    { event: "Singles", link: "/draws/girls_u14_singles.pdf" },
+                  ],
+                },
+                {
+                  category: "Boys Under 14",
+                  color: "from-blue-500 to-cyan-400",
+                  accent: "blue",
+                  draws: [
+                    { event: "Singles", link: "/draws/boys_u14_singles.pdf" },
+                    { event: "Doubles", link: "/draws/boys_u14_doubles.pdf" },
+                  ],
+                },
+                {
+                  category: "Boys Under 16",
+                  color: "from-blue-500 to-cyan-400",
+                  accent: "blue",
+                  draws: [
+                    { event: "Singles", link: "/draws/boys_u16_singles.pdf" },
+                    { event: "Doubles", link: "/draws/boys_u16_doubles.pdf" },
+                  ],
+                },
+                {
+                  category: "Girls Under 16",
+                  color: "from-pink-500 to-rose-400",
+                  accent: "pink",
+                  draws: [
+                    { event: "Singles", link: "/draws/girls_u16_singles.pdf" },
+                    { event: "Doubles", link: "/draws/girls_u16_doubles.pdf" },
+                  ],
+                },
+                {
+                  category: "Boys Under 18",
+                  color: "from-blue-500 to-cyan-400",
+                  accent: "blue",
+                  draws: [
+                    { event: "Singles", link: "/draws/boys_u18_singles.pdf" },
+                    { event: "Doubles", link: "/draws/boys_u18_doubles.pdf" },
+                  ],
+                },
+                {
+                  category: "Girls Under 18",
+                  color: "from-pink-500 to-rose-400",
+                  accent: "pink",
+                  draws: [
+                    { event: "Singles", link: "/draws/girls_u18_singles.pdf" },
+                    { event: "Doubles", link: "/draws/girls_u18_doubles.pdf" },
+                  ],
+                },
+                {
+                  category: "Men's Open",
+                  color: "from-indigo-500 to-purple-500",
+                  accent: "indigo",
+                  draws: [
+                    { event: "Singles", link: "/draws/mens_singles.pdf" },
+                    { event: "Doubles", link: "/draws/mens_doubles.pdf" },
+                  ],
+                },
+                {
+                  category: "Women's Open",
+                  color: "from-violet-500 to-fuchsia-500",
+                  accent: "violet",
+                  draws: [
+                    { event: "Singles", link: "/draws/womens_singles.pdf" },
+                    { event: "Doubles", link: "/draws/womens_doubles.pdf" },
+                  ],
+                },
+                {
+                  category: "Mixed Open",
+                  color: "from-orange-500 to-amber-400",
+                  accent: "orange",
+                  draws: [
+                    { event: "Doubles", link: "/draws/mixed_doubles.pdf" },
+                  ],
+                },
+              ].map((group, idx) => (
+                <motion.div
+                  key={group.category}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.06 }}
+                  className="relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-lg hover:bg-white/10 transition-all mb-4"
+                >
+                  {/* Left accent bar */}
+                  <div className={`absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b ${group.color}`}></div>
+
+                  <div className="pl-6 pr-5 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    {/* Category title */}
+                    <div className="flex items-center gap-4">
+                      <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${group.color} flex items-center justify-center shadow-lg shrink-0`}>
+                        <Trophy className="w-5 h-5 text-white" />
+                      </div>
+                      <h4 className="text-lg font-bold text-white">{group.category}</h4>
+                    </div>
+
+                    {/* Download buttons for each event */}
+                    <div className="flex gap-3 flex-wrap">
+                      {group.draws.map((draw) => (
+                        <a
+                          key={draw.event}
+                          href={draw.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r ${group.color} text-white text-sm font-semibold rounded-full shadow-md hover:opacity-90 hover:scale-105 transition-all duration-200`}
+                        >
+                          <Download className="w-4 h-4" />
+                          {draw.event}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </motion.section>
 
