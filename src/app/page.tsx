@@ -626,20 +626,21 @@ export default function App() {
                   ],
                 },
                 {
-                  category: "Girls Under 14",
-                  color: "from-pink-500 to-rose-400",
-                  accent: "pink",
-                  draws: [
-                    { event: "Singles", link: "/draws/girls_u14_singles.pdf" },
-                  ],
-                },
-                {
                   category: "Boys Under 14",
                   color: "from-blue-500 to-cyan-400",
                   accent: "blue",
                   draws: [
                     { event: "Singles", link: "/draws/boys_u14_singles.pdf" },
                     { event: "Doubles", link: "/draws/boys_u14_doubles.pdf" },
+                  ],
+                },
+                {
+                  category: "Girls Under 14",
+                  color: "from-pink-500 to-rose-400",
+                  accent: "pink",
+                  draws: [
+                    { event: "Singles", link: "/draws/girls_u14_singles.pdf" },
+                    { event: "Doubles", link: "/draws/girls_u14_doubles.pdf" },
                   ],
                 },
                 {
@@ -657,7 +658,6 @@ export default function App() {
                   accent: "pink",
                   draws: [
                     { event: "Singles", link: "/draws/girls_u16_singles.pdf" },
-                    { event: "Doubles", link: "/draws/girls_u16_doubles.pdf" },
                   ],
                 },
                 {
@@ -675,7 +675,6 @@ export default function App() {
                   accent: "pink",
                   draws: [
                     { event: "Singles", link: "/draws/girls_u18_singles.pdf" },
-                    { event: "Doubles", link: "/draws/girls_u18_doubles.pdf" },
                   ],
                 },
                 {
